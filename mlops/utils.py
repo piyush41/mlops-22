@@ -4,6 +4,7 @@ from sklearn.metrics import f1_score
 from joblib import dump
 from sklearn import svm, tree
 import pdb
+from PIL import Image
 
 
 def get_all_combs(param_vals, param_name, combs_so_far):
@@ -29,6 +30,7 @@ def get_all_h_param_comb(params):
 def preprocess_digits(dataset):
     n_samples = len(dataset.images)
     data = dataset.images.reshape((n_samples, -1))
+    data =dataset .images.resize((14, 14))
     label = dataset.target
     return data, label
 

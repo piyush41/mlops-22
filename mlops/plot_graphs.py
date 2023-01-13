@@ -42,12 +42,14 @@ h_param_comb = {"svm": svm_h_param_comb, "decision_tree": dec_h_param_comb}
 digits = datasets.load_digits()
 data_viz(digits)
 data, label = preprocess_digits(digits)
+
 # housekeeping
 del digits
 
 # define the evaluation metric
 metric_list = [metrics.accuracy_score, macro_f1]
-h_metric = metrics.accuracy_score
+# previous one h_metric = metrics.accuracy_score
+h_metric = macro_f1
 
 n_cv = 5
 results = {}
@@ -59,7 +61,7 @@ for n in range(n_cv):
     # Create a classifier: a support vector classifier
     models_of_choice = {
         "svm": svm.SVC(),
-        "decision_tree": tree.DecisionTreeClassifier(),
+        "decision_tree": tree.DecisionTreeClassifier(random_state=42),
     }
     for clf_name in models_of_choice:
         clf = models_of_choice[clf_name]
@@ -74,6 +76,7 @@ for n in range(n_cv):
         # PART: Get test set predictions
         # Predict the value of the digit on the test subset
         predicted = best_model.predict(x_test)
+        
         if not clf_name in results:
             results[clf_name]=[]    
 
